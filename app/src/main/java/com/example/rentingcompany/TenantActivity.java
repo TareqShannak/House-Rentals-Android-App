@@ -52,10 +52,10 @@ public class TenantActivity extends AppCompatActivity {
         TextView email = (TextView) findViewById(R.id.nav_header_email);
         ImageView image = (ImageView) findViewById(R.id.imageView);
 
-        if(accountStatus.equalsIgnoreCase("Tenant")){
+        if (accountStatus.equalsIgnoreCase("Tenant")) {
             username.setText(MainActivity.username + " (Tenant)");
             image.setImageResource(R.mipmap.profile_picture_round);
-        }else{
+        } else {
             username.setText(MainActivity.username);
             image.setImageResource(R.mipmap.guest_picture_round);
         }

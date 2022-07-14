@@ -10,16 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.rentingcompany.CustomGrid;
 import com.example.rentingcompany.DataBase.DataBaseHelper;
 import com.example.rentingcompany.LogInActivity;
 import com.example.rentingcompany.Models.Property;
 import com.example.rentingcompany.R;
+import com.example.rentingcompany.Grids.THistoryGrid;
 
 import java.util.ArrayList;
 
@@ -81,8 +82,8 @@ public class TenantHistoryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(accountStatus.equalsIgnoreCase("Guest")){
-            Toast toast =Toast.makeText(getActivity(), "Log In First..",Toast.LENGTH_SHORT);
+        if (accountStatus.equalsIgnoreCase("Guest")) {
+            Toast toast = Toast.makeText(getActivity(), "Log In First..", Toast.LENGTH_SHORT);
             toast.show();
             Intent intent = new Intent(getActivity(), LogInActivity.class);
             getActivity().startActivity(intent);
@@ -90,21 +91,29 @@ public class TenantHistoryFragment extends Fragment {
         }
 
 
-        GridView grid = (GridView) getActivity().findViewById(R.id.tHistoryGrid);
+        TextView emptyTextView = (TextView) getActivity().findViewById(R.id.emptyTHistoryTextView);
+        GridView grid;
         DataBaseHelper DB = new
                 DataBaseHelper(getActivity(), "EXP4", null, 1);
         ArrayList<Property> propertiesArrayList = new ArrayList<Property>();
         Cursor cursor = DB.getAllContractDataForTenant(email);
+        Boolean empty = true;
         Cursor cursor2;
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
+            empty = false;
             cursor2 = DB.getReadableDatabase().rawQuery("Select * from PROPERTY WHERE POSTALADDRESS LIKE '" + cursor.getString(0) + "'", null);
             while (cursor2.moveToNext())
-                propertiesArrayList.add(new Property(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getDouble(5), (cursor.getString(6).compareToIgnoreCase("TRUE")==0? true:false), cursor.getString(7), cursor.getString(8), cursor.getString(9)));
+                propertiesArrayList.add(new Property(cursor2.getString(0), cursor2.getString(1), cursor2.getInt(2), cursor2.getInt(3), cursor2.getInt(4), cursor2.getDouble(5), (cursor2.getString(6).compareToIgnoreCase("TRUE") == 0 ? true : false), cursor2.getString(7), cursor2.getString(8), cursor2.getString(9)));
         }
 
-        CustomGrid adapter = new CustomGrid(getActivity(), propertiesArrayList);
-        grid=(GridView) getActivity().findViewById(R.id.grid);
-        grid.setAdapter(adapter);
+        if (empty)
+            emptyTextView.setVisibility(View.VISIBLE);
+        else {
+            emptyTextView.setVisibility(View.INVISIBLE);
+            THistoryGrid adapter = new THistoryGrid(getActivity(), propertiesArrayList);
+            grid = (GridView) getActivity().findViewById(R.id.tHistoryGrid);
+            grid.setAdapter(adapter);
+        }
 
 
     }

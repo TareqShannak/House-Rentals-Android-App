@@ -1,22 +1,19 @@
 package com.example.rentingcompany;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rentingcompany.databinding.ActivityRentingAgencyBinding;
+import com.google.android.material.navigation.NavigationView;
 
 public class RentingAgencyActivity extends AppCompatActivity {
 
@@ -37,7 +34,7 @@ public class RentingAgencyActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_add, R.id.nav_edit, R.id.nav_renting_agency_history, R.id.nav_profile, R.id.nav_logout)
+                R.id.nav_home, R.id.nav_add, R.id.nav_edit, R.id.nav_request, R.id.nav_renting_agency_history, R.id.nav_profile, R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_renting_agency);

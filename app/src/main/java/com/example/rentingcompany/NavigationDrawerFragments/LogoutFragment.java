@@ -75,16 +75,15 @@ public class LogoutFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         Toast toast;
-        if(accountStatus.equalsIgnoreCase("Guest"))
-            toast =Toast.makeText(getActivity(), "Log In First..",Toast.LENGTH_SHORT);
+        if (accountStatus.equalsIgnoreCase("Guest"))
+            toast = Toast.makeText(getActivity(), "Log In First..", Toast.LENGTH_SHORT);
         else
-            toast =Toast.makeText(getActivity(), "Log Out..",Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), "Log Out..", Toast.LENGTH_SHORT);
         toast.show();
 
         Intent intent = new Intent(getActivity(), LogInActivity.class);
         getActivity().startActivity(intent);
         getActivity().finish();
-
 
 
     }

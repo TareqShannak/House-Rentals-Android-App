@@ -34,16 +34,15 @@ import java.util.ArrayList;
  */
 public class AddFragment extends Fragment {
 
-    ArrayList<String> propertyArrayList = new ArrayList();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    ArrayList<String> propertyArrayList = new ArrayList();
+    int SurfaceArea = 100, NumOfBedrooms = 1;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    int SurfaceArea = 100, NumOfBedrooms = 1;
 
     public AddFragment() {
         // Required empty public constructor
@@ -144,12 +143,12 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String TOASTMSG = "";
-                if(PostalAddress_editText.getText().toString().isEmpty() || ConstructionYear_editText.getText().toString().isEmpty() || RentalPrice_editText.getText().toString().isEmpty() || AvailabilityDate_editText.getText().toString().isEmpty() || PhotoURL_editText.getText().toString().isEmpty()){
-                    TOASTMSG =  "Complete The Fields!";
+                if (PostalAddress_editText.getText().toString().isEmpty() || ConstructionYear_editText.getText().toString().isEmpty() || RentalPrice_editText.getText().toString().isEmpty() || AvailabilityDate_editText.getText().toString().isEmpty() || PhotoURL_editText.getText().toString().isEmpty()) {
+                    TOASTMSG = "Complete The Fields!";
 
-                }else if (!MainActivity.validateJavaDate(AvailabilityDate_editText.getText().toString())){
+                } else if (!MainActivity.validateJavaDate(AvailabilityDate_editText.getText().toString())) {
                     TOASTMSG = "Wrong Date!";
-                }else{
+                } else {
 
                     DataBaseHelper dBHelper = new
                             DataBaseHelper(getActivity(), "EXP4", null, 1);
@@ -160,15 +159,16 @@ public class AddFragment extends Fragment {
 
                     if (propertyArrayList.contains(PostalAddress_editText.getText().toString()))
                         TOASTMSG = "There is Something Wrong!!";
-                    else{
-                        DataBaseHelper dataBaseHelper =new DataBaseHelper(getActivity(),"EXP4",null,1);
-                        dataBaseHelper.insertProperty(new Property(PostalAddress_editText.getText().toString(), citySpinner.getSelectedItem().toString(), SurfaceArea, Integer.valueOf(ConstructionYear_editText.getText().toString()), NumOfBedrooms, Double.valueOf(RentalPrice_editText.getText().toString()), (furnishedRadioButton.isChecked()? true: false), PhotoURL_editText.getText().toString(), AvailabilityDate_editText.getText().toString(), DescriptionText.getText().toString()));;
+                    else {
+                        DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "EXP4", null, 1);
+                        dataBaseHelper.insertProperty(new Property(PostalAddress_editText.getText().toString(), citySpinner.getSelectedItem().toString(), SurfaceArea, Integer.valueOf(ConstructionYear_editText.getText().toString()), NumOfBedrooms, Double.valueOf(RentalPrice_editText.getText().toString()), (furnishedRadioButton.isChecked() ? true : false), PhotoURL_editText.getText().toString(), AvailabilityDate_editText.getText().toString(), DescriptionText.getText().toString()));
+                        ;
                         dataBaseHelper.insertHave(PostalAddress_editText.getText().toString(), email);
                         TOASTMSG = "The Property has been added Correctly!";
                     }
 
                 }
-                Toast toast =Toast.makeText(getActivity(), TOASTMSG, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity(), TOASTMSG, Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

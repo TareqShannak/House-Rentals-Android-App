@@ -41,100 +41,100 @@ public class Tenant {
         return emailAddress;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public String getGrossMonthlySalary() {
-        return grossMonthlySalary;
-    }
-
-    public String getOccupation() {
-        return occupation;
-    }
-
-    public String getFamilySize() {
-        return familySize;
-    }
-
-    public String getCurrentResidenceCountry() {
-        return currentResidenceCountry;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
 
+    public String getNationality() {
+        return nationality;
+    }
+
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public String getGrossMonthlySalary() {
+        return grossMonthlySalary;
     }
 
     public void setGrossMonthlySalary(String grossMonthlySalary) {
         this.grossMonthlySalary = grossMonthlySalary;
     }
 
+    public String getOccupation() {
+        return occupation;
+    }
+
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    public String getFamilySize() {
+        return familySize;
     }
 
     public void setFamilySize(String familySize) {
         this.familySize = familySize;
     }
 
+    public String getCurrentResidenceCountry() {
+        return currentResidenceCountry;
+    }
+
     public void setCurrentResidenceCountry(String currentResidenceCountry) {
         this.currentResidenceCountry = currentResidenceCountry;
     }
 
+    public String getCity() {
+        return City;
+    }
+
     public void setCity(String city) {
         City = city;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {

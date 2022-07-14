@@ -60,9 +60,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
         TextView phoneNumberErrorTxtView = (TextView) findViewById(R.id.phoneNumberErrorTxtView);
 
 
-
-
-
         Button confirmButton = (Button) findViewById(R.id.confirmButton);
         int arr[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -74,11 +71,11 @@ public class SignUpTenantActivity extends AppCompatActivity {
         genderSpinner.setAdapter(objGenderArr);
 
 
-        String[] nationalityOptions = { "Palestinian", "Algerian" ,"Jordanian","Qatari","Syrian","Lebanese","Egyptian","Turkey","Tunisia"};
-        final Spinner nationalitySpinner =(Spinner)
+        String[] nationalityOptions = {"Palestinian", "Algerian", "Jordanian", "Qatari", "Syrian", "Lebanese", "Egyptian", "Turkey", "Tunisia"};
+        final Spinner nationalitySpinner = (Spinner)
                 findViewById(R.id.nationalitySpinner);
         ArrayAdapter<String> objNationalityArr = new
-                ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nationalityOptions);
+                ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nationalityOptions);
         nationalitySpinner.setAdapter(objNationalityArr);
 
 
@@ -91,15 +88,15 @@ public class SignUpTenantActivity extends AppCompatActivity {
         currentResidenceCountrySpinner.setAdapter(arrayAdapter_parent);
 
 
-        String[] palestineCities = { "Jerusalem", "Ramallah","Gaza"," Hebron" ,"Nablus","Akka","Bethlehem"};
-        String[] AlgeriaCities = {"Oran","Oran","Constantine","Annaba","Djelfa","Biskra","Setif"};
-        String[] JordanCities = {"Amman","Zarqa","Irbid","Russeifa","Wadi as-Ser","Madaba","al-Baq'a","Sahab"};
+        String[] palestineCities = {"Jerusalem", "Ramallah", "Gaza", " Hebron", "Nablus", "Akka", "Bethlehem"};
+        String[] AlgeriaCities = {"Oran", "Oran", "Constantine", "Annaba", "Djelfa", "Biskra", "Setif"};
+        String[] JordanCities = {"Amman", "Zarqa", "Irbid", "Russeifa", "Wadi as-Ser", "Madaba", "al-Baq'a", "Sahab"};
         String[] QatarCities = {"Doha", "Abu az Zuluf", "Abu Thaylah", "Al Ghanim", "Al Ghuwariyah", "Al `Arish"};
         String[] SyriaCities = {"Aleppo", "Damascus", "Homs", "Latakia", "Hama", "Qamishli", "Tartus"};
         String[] LebanonCities = {"Beirut", "Tripoli", "Sidon", "Zahle", "Batroun", "Tyre"};
 
 
-        Spinner citySpinner = (Spinner)  findViewById(R.id.citySpinner);
+        Spinner citySpinner = (Spinner) findViewById(R.id.citySpinner);
 
 
 
@@ -121,7 +118,7 @@ public class SignUpTenantActivity extends AppCompatActivity {
         phoneNumberErrorTxtView.setText("");
 */
         ArrayAdapter<String> objCCClityArr = new
-                ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, palestineCities);
+                ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, palestineCities);
 
 
         phoneNumberTextField.setText("00970");
@@ -135,17 +132,17 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     phoneNumberTextField.setText("00970");
                 }
                 if (i == 1) {
-                    ArrayAdapter<String>arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, AlgeriaCities);
+                    ArrayAdapter<String> arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, AlgeriaCities);
                     citySpinner.setAdapter(arrayAdapter_child);
                     phoneNumberTextField.setText("00213");
                 }
                 if (i == 2) {
-                    ArrayAdapter<String>arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, JordanCities);
+                    ArrayAdapter<String> arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, JordanCities);
                     citySpinner.setAdapter(arrayAdapter_child);
                     phoneNumberTextField.setText("00962");
                 }
                 if (i == 3) {
-                    ArrayAdapter<String>arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, QatarCities);
+                    ArrayAdapter<String> arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, QatarCities);
                     citySpinner.setAdapter(arrayAdapter_child);
                     phoneNumberTextField.setText("00974");
                 }
@@ -175,7 +172,7 @@ public class SignUpTenantActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                phoneNumberTextField.setText("00970");
+                //phoneNumberTextField.setText("00970");
 
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if (emailTextField.getText().toString().isEmpty()) {
@@ -191,7 +188,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                         arr[0] = 0;
                     }
                 }
-
 
 
                 if (firstNameTextField.getText().toString().isEmpty()) {
@@ -213,11 +209,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                 }
 
 
-
-
-
-
-
                 if (lastNameTextField.getText().toString().isEmpty()) {
                     lastNmaeErrorTxtView.setText("Required Field");
                     arr[2] = 0;
@@ -237,10 +228,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                 }
 
 
-
-
-
-
                 if (genderSpinner.getSelectedItem().toString().isEmpty()) {
                     genderErrorTxtView.setText("Required Field");
                     arr[3] = 0;
@@ -248,9 +235,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     genderErrorTxtView.setText("");
                     arr[3] = 1;
                 }
-
-
-
 
 
                 if (passwordTextField.getText().toString().isEmpty()) {
@@ -283,7 +267,7 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     if (numFlag == 1 && upperCaseflag == 1 && specialCharFlag == 1 && lowerCaseFlag == 1) {
                         passwordErrorTxtView.setText("");
                         arr[4] = 1;
-                    }else {
+                    } else {
                         passwordErrorTxtView.setText("Weak Password");
                         passwordTextField.setText("");
                         arr[4] = 0;
@@ -293,9 +277,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     passwordTextField.setText("");
                     arr[4] = 0;
                 }
-
-
-
 
 
                 if (confirmPasswordTextFiled.getText().toString().isEmpty()) {
@@ -314,7 +295,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                 }
 
 
-
                 if (nationalitySpinner.getSelectedItem().toString().isEmpty()) {
                     nationalityErrorTxtView.setText("Required Field");
                     arr[6] = 0;
@@ -322,7 +302,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     nationalityErrorTxtView.setText("");
                     arr[6] = 1;
                 }
-
 
 
                 if (grossMonthlySalaryTextField.getText().toString().isEmpty()) {
@@ -349,8 +328,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     occupationErrorTxtView.setText("Large Input!! maximum letters is 20");
                     arr[8] = 0;
                 }
-
-
 
 
                 if (familySizeTextField.getText().toString().isEmpty()) {
@@ -383,17 +360,17 @@ public class SignUpTenantActivity extends AppCompatActivity {
                             phoneNumberTextField.setText("00970");
                         }
                         if (i == 1) {
-                            ArrayAdapter<String>arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, AlgeriaCities);
+                            ArrayAdapter<String> arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, AlgeriaCities);
                             citySpinner.setAdapter(arrayAdapter_child);
                             phoneNumberTextField.setText("00213");
                         }
                         if (i == 2) {
-                            ArrayAdapter<String>arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, JordanCities);
+                            ArrayAdapter<String> arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, JordanCities);
                             citySpinner.setAdapter(arrayAdapter_child);
                             phoneNumberTextField.setText("00962");
                         }
                         if (i == 3) {
-                            ArrayAdapter<String>arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, QatarCities);
+                            ArrayAdapter<String> arrayAdapter_child = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, QatarCities);
                             citySpinner.setAdapter(arrayAdapter_child);
                             phoneNumberTextField.setText("00974");
                         }
@@ -417,7 +394,7 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     }
                 });
 
-                arr[11]=1;
+                arr[11] = 1;
 
 
                 if (phoneNumberTextField.getText().toString().length() < 5) {
@@ -438,12 +415,12 @@ public class SignUpTenantActivity extends AppCompatActivity {
                     public void run() {
 
 
-                        for(int i=0 ;i<13;i++){
-                            if(arr[i]==0){
+                        for (int i = 0; i < 13; i++) {
+                            if (arr[i] == 0) {
                                 Toast.makeText(getApplicationContext(),
                                         "Sign Up process failed, Try again please", Toast.LENGTH_LONG).show();
                                 break;
-                            }else if(i==12){
+                            } else if (i == 12) {
                                 //ADD DATA INTO DATABase
 
                                 Tenant newTenant = new Tenant();
@@ -452,7 +429,7 @@ public class SignUpTenantActivity extends AppCompatActivity {
                                 newTenant.setFirstName(firstNameTextField.getText().toString());
                                 newTenant.setLastName(lastNameTextField.getText().toString());
                                 newTenant.setGender(genderSpinner.getSelectedItem().toString());
-                                newTenant.setPassword(SHA.encryptSHA512(passwordTextField.getText().toString()));
+                                newTenant.setPassword(passwordTextField.getText().toString());
                                 newTenant.setConfirmPassword(SHA.encryptSHA512(confirmPasswordTextFiled.getText().toString()));
                                 newTenant.setNationality(nationalitySpinner.getSelectedItem().toString());
                                 newTenant.setGrossMonthlySalary(grossMonthlySalaryTextField.getText().toString());
@@ -462,7 +439,7 @@ public class SignUpTenantActivity extends AppCompatActivity {
                                 newTenant.setCity(citySpinner.getSelectedItem().toString());
                                 newTenant.setPhoneNumber(phoneNumberTextField.getText().toString());
 
-                                DataBaseHelper dataBaseHelper =new DataBaseHelper(SignUpTenantActivity.this,"EXP4",null,1);
+                                DataBaseHelper dataBaseHelper = new DataBaseHelper(SignUpTenantActivity.this, "EXP4", null, 1);
                                 dataBaseHelper.insertTenant(newTenant);
 
                                 Intent intent = new Intent(SignUpTenantActivity.this, LogInActivity.class);
@@ -470,7 +447,6 @@ public class SignUpTenantActivity extends AppCompatActivity {
                                 finish();
                             }
                         }
-
 
 
                     }

@@ -172,7 +172,6 @@ public class SignUpRentingAgencyActivity extends AppCompatActivity {
                         }
                         //Check if it consist special character
                         for (char x : specialCHARS) {
-                            System.out.println(x);
                             if (x == c) {
                                 specialCharFlag = 1;
                                 // emailAddressError.setText(x);
@@ -297,8 +296,8 @@ public class SignUpRentingAgencyActivity extends AppCompatActivity {
                                 RentingAgency newRentingAgency = new RentingAgency();
                                 newRentingAgency.setEmailAddress(emailAddress.getText().toString());
                                 newRentingAgency.setAgencyName(agencyName.getText().toString());
-                                newRentingAgency.setPassword(SHA.encryptSHA512(password.getText().toString()));
-                                newRentingAgency.setConfirmPassword(confirmpassword.getText().toString());
+                                newRentingAgency.setPassword(password.getText().toString());
+                                newRentingAgency.setConfirmPassword(SHA.encryptSHA512(confirmpassword.getText().toString()));
                                 newRentingAgency.setCountry(countrySpinner.getSelectedItem().toString());
                                 newRentingAgency.setCity(citySpinn.getSelectedItem().toString());
                                 newRentingAgency.setPhoneNumber(phoneNumber.getText().toString());

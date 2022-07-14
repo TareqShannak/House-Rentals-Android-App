@@ -17,7 +17,7 @@ public class SHA {
             e.printStackTrace();
         }
         BigInteger shaData1 = new BigInteger(1, outputData1);
-        return  shaData1.toString(16);
+        return shaData1.toString(16);
     }
 
 

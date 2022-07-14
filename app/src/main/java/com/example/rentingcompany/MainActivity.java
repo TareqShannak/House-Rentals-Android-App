@@ -1,5 +1,8 @@
 package com.example.rentingcompany;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -11,10 +14,15 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.rentingcompany.Connection.ConnectionAsyncTask;
 import com.example.rentingcompany.DataBase.DataBaseHelper;
+import com.example.rentingcompany.DataBase.SHA;
 import com.example.rentingcompany.Models.Property;
+import com.example.rentingcompany.Models.RentingAgency;
+import com.example.rentingcompany.Models.Tenant;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,13 +31,39 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button connectButton;
     public static String username = "";
     public static String email = "";
     public static String accountStatus = "";
+    Button connectButton;
     ConnectivityManager connectivityManager;
     NetworkInfo networkInfo;
     int connectionFlag = 1;
+
+    public static boolean validateJavaDate(String strDate) {
+        /* Check if date is 'null' */
+        if (strDate.trim().equals("")) {
+            return true;
+        }
+        /* Date is not 'null' */
+        else {
+            /*
+             * Set preferred date format,
+             * For example MM-dd-yyyy, MM.dd.yyyy,dd.MM.yyyy etc.*/
+            SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yyyy");
+            sdfrmt.setLenient(false);
+            /* Create Date object
+             * parse the string into date
+             */
+            try {
+                Date javaDate = sdfrmt.parse(strDate);
+            }
+            /* Date format is invalid */ catch (ParseException e) {
+                return false;
+            }
+            /* Return true if date format is valid */
+            return true;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,48 +72,58 @@ public class MainActivity extends AppCompatActivity {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this, "EXP4", null, 1);
 
         /*
-        *   DELETE PROPERTY TABLE
+         *   DELETE PROPERTY TABLE
          */
-        //dataBaseHelper.deleteAllProperties();
+//        dataBaseHelper.deleteAllProperties();
+//        dataBaseHelper.deleteAllHaves();
+//        dataBaseHelper.deleteAllContracts();
+//        dataBaseHelper.deleteAllRequests();
+
+        //Initial values (email & password)
+
+        //dataBaseHelper.insertTenant(new Tenant("a", "Abdulghaffar", "Abed", "Male", "t", SHA.encryptSHA512("abd"), "Palestinian", "1500", "Palestine", "5", "Palestine", "Jerusalem", "00970598321784"));
+        //dataBaseHelper.insertRentingAgency(new RentingAgency("t", "Tareq Shannak", "t", SHA.encryptSHA512("tareq"), "Palestine", "Jerusalem", "00970598261423"));
+
+
         setContentView(R.layout.activity_main);
         setProgress(false);
         connectButton = (Button) findViewById(R.id.connectButton);
 
 
         connectButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int connectionFlag = 0;
-                        connectivityManager = (ConnectivityManager) getSystemService((Context.CONNECTIVITY_SERVICE));
-                        networkInfo = connectivityManager.getActiveNetworkInfo();
+            @Override
+            public void onClick(View view) {
+                int connectionFlag = 0;
+                connectivityManager = (ConnectivityManager) getSystemService((Context.CONNECTIVITY_SERVICE));
+                networkInfo = connectivityManager.getActiveNetworkInfo();
 
-                        if ((networkInfo != null) && (networkInfo.isConnected())) {
-                            connectionFlag = 1;
-                        }
-
-
-                        if (connectionFlag == 1) {
+                if ((networkInfo != null) && (networkInfo.isConnected())) {
+                    connectionFlag = 1;
+                }
 
 
-                            ConnectionAsyncTask connectionAsyncTask = new
-                                    ConnectionAsyncTask(MainActivity.this);
-
-                            connectionAsyncTask.execute("https://run.mocky.io/v3/3ebd3635-7c27-4576-9d82-daed37390f2e");
-
-                            Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-
-                            MainActivity.this.startActivity(intent);
-                            finish();
+                if (connectionFlag == 1) {
 
 
-                        } else {
-                            Toast toast = Toast.makeText(MainActivity.this,
-                                    "No Internet Connection", Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                    ConnectionAsyncTask connectionAsyncTask = new
+                            ConnectionAsyncTask(MainActivity.this);
 
-                    }
-                });
+                    connectionAsyncTask.execute("https://run.mocky.io/v3/3ebd3635-7c27-4576-9d82-daed37390f2e");
+
+                    Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+
+                    MainActivity.this.startActivity(intent);
+                    finish();
+
+
+                } else {
+                    Toast toast = Toast.makeText(MainActivity.this,
+                            "No Internet Connection", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+            }
+        });
 
 
     }
@@ -87,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
     public void setButtonText(String text) {
         connectButton.setText(text);
     }
-
 
     public void setProgress(boolean progress) {
         ProgressBar progressBar = findViewById(R.id.progressBar);
@@ -101,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         }
     }
-
 
     public void fillProperties(List<Property> Properties) {
 
@@ -127,38 +169,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
-
-    public static boolean validateJavaDate(String strDate)
-    {
-        /* Check if date is 'null' */
-        if (strDate.trim().equals(""))
-        {
-            return true;
-        }
-        /* Date is not 'null' */
-        else
-        {
-            /*
-             * Set preferred date format,
-             * For example MM-dd-yyyy, MM.dd.yyyy,dd.MM.yyyy etc.*/
-            SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yyyy");
-            sdfrmt.setLenient(false);
-            /* Create Date object
-             * parse the string into date
-             */
-            try
-            {
-                Date javaDate = sdfrmt.parse(strDate);
-            }
-            /* Date format is invalid */
-            catch (ParseException e)
-            {
-                return false;
-            }
-            /* Return true if date format is valid */
-            return true;
-        }
     }
 
 }

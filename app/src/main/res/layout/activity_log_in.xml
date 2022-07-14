@@ -5,8 +5,8 @@
     android:id="@+id/linearLayout9"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context=".LogInActivity">
 
     <ScrollView
@@ -27,7 +27,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="713dp">
+                android:layout_height="770dp">
 
                 <ImageView
                     android:id="@+id/logoImage"
@@ -78,10 +78,15 @@
                     android:id="@+id/emailErrorPlaintext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="275dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="278dp"
+                    android:layout_marginEnd="10dp"
                     android:height="60px"
                     android:paddingLeft="8px"
                     android:shadowColor="@color/red"
+                    android:textColor="@color/red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
@@ -105,11 +110,16 @@
                     android:id="@+id/passwordErrorPlaintext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="375dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="378dp"
+                    android:layout_marginEnd="10dp"
                     android:height="60px"
                     android:elegantTextHeight="false"
                     android:paddingLeft="8px"
                     android:shadowColor="@color/red"
+                    android:textColor="@color/red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <CheckBox
@@ -117,16 +127,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="415dp"
+                    android:layout_marginTop="418dp"
                     android:text="Save Registration"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:id="@+id/linearLayout14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="70dp"
-                    android:layout_marginTop="490dp"
+                    android:layout_marginTop="465dp"
                     android:layout_marginEnd="70dp"
                     android:layout_marginBottom="160dp"
                     android:gravity="center"
@@ -139,31 +150,35 @@
                     <Button
                         android:id="@+id/signInButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="#FFFFF3"
                         android:text="Sign in"
                         android:textAllCaps="false" />
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <Button
-                        android:id="@+id/guestButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Continue as Guest"
-                        android:textSize="11sp" />
-
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/guestButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="127dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="127dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Continue as Guest"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/signUpTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
 
                 <TextView
                     android:id="@+id/signUpTextView"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="565dp"
+                    android:layout_marginTop="655dp"
                     android:height="60px"
                     android:paddingLeft="8px"
                     android:text="Don't have an account ?"
@@ -177,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="150dp"
-                    android:layout_marginTop="615dp"
+                    android:layout_marginTop="705dp"
                     android:layout_marginEnd="150dp"
                     android:background="#FFFFF3"
                     android:text="Sign up"

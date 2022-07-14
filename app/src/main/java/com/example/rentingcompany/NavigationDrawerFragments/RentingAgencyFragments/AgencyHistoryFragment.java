@@ -8,14 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.rentingcompany.CustomGrid;
 import com.example.rentingcompany.DataBase.DataBaseHelper;
 import com.example.rentingcompany.Models.Property;
 import com.example.rentingcompany.R;
+import com.example.rentingcompany.Grids.RAHistoryGrid;
 
 import java.util.ArrayList;
 
@@ -76,22 +77,35 @@ public class AgencyHistoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        GridView grid = (GridView) getActivity().findViewById(R.id.rHistoryGrid);
+
+        // Example::::::::::::::::::::::::::::::::::
+//        DBHelper.insertProperty(new Property("XYZ", "Ramallah", 250, 2000, 5, 30000, true, "x", "4/10/2023", "Beautiful"));
+//        DBHelper.insertHave("XYZ", "t@gmail.com");
+//        DBHelper.insertContract("XYZ", "abd@gmail.com");
+
+
+        TextView emptyTextView = (TextView) getActivity().findViewById(R.id.emptyRAHistoryTextView);
+        GridView grid;
         DataBaseHelper DB = new
                 DataBaseHelper(getActivity(), "EXP4", null, 1);
         ArrayList<Property> propertiesArrayList = new ArrayList<Property>();
         Cursor cursor = DB.getAllContractDataForRentingAgency(email);
+        Boolean empty = true;
         Cursor cursor2;
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
+            empty = false;
             cursor2 = DB.getReadableDatabase().rawQuery("Select * from PROPERTY WHERE POSTALADDRESS LIKE '" + cursor.getString(0) + "'", null);
             while (cursor2.moveToNext())
-                propertiesArrayList.add(new Property(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getDouble(5), (cursor.getString(6).compareToIgnoreCase("TRUE")==0? true:false), cursor.getString(7), cursor.getString(8), cursor.getString(9)));
+                propertiesArrayList.add(new Property(cursor2.getString(0), cursor2.getString(1), cursor2.getInt(2), cursor2.getInt(3), cursor2.getInt(4), cursor2.getDouble(5), (cursor2.getString(6).compareToIgnoreCase("TRUE") == 0 ? true : false), cursor2.getString(7), cursor2.getString(8), cursor2.getString(9)));
         }
 
-        CustomGrid adapter = new CustomGrid(getActivity(), propertiesArrayList);
-        grid=(GridView) getActivity().findViewById(R.id.grid);
-        grid.setAdapter(adapter);
-
-
+        if (empty)
+            emptyTextView.setVisibility(View.VISIBLE);
+        else {
+            emptyTextView.setVisibility(View.INVISIBLE);
+            RAHistoryGrid adapter = new RAHistoryGrid(getActivity(), propertiesArrayList);
+            grid = (GridView) getActivity().findViewById(R.id.rHistoryGrid);
+            grid.setAdapter(adapter);
+        }
     }
 }

@@ -18,7 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.rentingcompany.CustomGrid;
+import com.example.rentingcompany.Grids.CustomGrid;
 import com.example.rentingcompany.DataBase.DataBaseHelper;
 import com.example.rentingcompany.Models.Property;
 import com.example.rentingcompany.R;
@@ -131,14 +131,14 @@ public class SearchFragment extends Fragment {
 
                 DataBaseHelper DBHelper = new DataBaseHelper(getActivity(), "EXP4", null, 1);
                 ArrayList<Property> propertiesArrayList = new ArrayList<Property>();
-                Cursor cursor = DBHelper.getReadableDatabase().rawQuery("Select * from PROPERTY WHERE CITY LIKE '" + citySpinner.getSelectedItem().toString() + "' AND SURFACEAREA >= " + lowerLimitSurfaceArea + " AND SURFACEAREA <= " + upperLimitSurfaceArea + " AND NUMOFBEDROOMS >= " + lowerLimitNumOfBedrooms + " AND NUMOFBEDROOMS <= " + upperLimitNumOfBedrooms + " AND RENTALPRICE >= " + (minRentalPrice.getText().toString().isEmpty()? "RENTALPRICE":minRentalPrice.getText().toString()) + " AND ISFURNISHED = '" + (furnishedRadioButton.isChecked()? "TRUE":"FALSE") + "'", null);
+                Cursor cursor = DBHelper.getReadableDatabase().rawQuery("Select * from PROPERTY WHERE CITY LIKE '" + citySpinner.getSelectedItem().toString() + "' AND SURFACEAREA >= " + lowerLimitSurfaceArea + " AND SURFACEAREA <= " + upperLimitSurfaceArea + " AND NUMOFBEDROOMS >= " + lowerLimitNumOfBedrooms + " AND NUMOFBEDROOMS <= " + upperLimitNumOfBedrooms + " AND RENTALPRICE >= " + (minRentalPrice.getText().toString().isEmpty() ? "RENTALPRICE" : minRentalPrice.getText().toString()) + " AND ISFURNISHED = '" + (furnishedRadioButton.isChecked() ? "TRUE" : "FALSE") + "'", null);
                 Boolean flag = false;
-                while (cursor.moveToNext()){
+                while (cursor.moveToNext()) {
                     flag = true;
                     propertiesArrayList.add(new Property(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getDouble(5), (cursor.getString(6).compareToIgnoreCase("TRUE") == 0 ? true : false), cursor.getString(7), cursor.getString(8), cursor.getString(9)));
                 }
-                if(!flag){
-                    Toast toast =Toast.makeText(getActivity(), "There is No Property with these Specifications to Show!", Toast.LENGTH_SHORT);
+                if (!flag) {
+                    Toast toast = Toast.makeText(getActivity(), "There is No Property with these Specifications to Show!", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
                     GridView grid;

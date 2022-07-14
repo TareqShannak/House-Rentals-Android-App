@@ -23,7 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.rentingcompany.CustomGrid;
+import com.example.rentingcompany.Grids.CustomGrid;
 import com.example.rentingcompany.DataBase.DataBaseHelper;
 import com.example.rentingcompany.MainActivity;
 import com.example.rentingcompany.Models.Property;
@@ -42,11 +42,11 @@ public class EditFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    String chosenPostalAddress;
+    int SurfaceArea = 100, NumOfBedrooms = 1;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    int SurfaceArea = 100, NumOfBedrooms = 1;
 
     public EditFragment() {
         // Required empty public constructor
@@ -68,6 +68,16 @@ public class EditFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static void selectSpinnerItemByValue(Spinner spnr, String value) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spnr.getAdapter();
+        for (int position = 0; position < adapter.getCount(); position++) {
+            if (adapter.getItem(position).equalsIgnoreCase(value)) {
+                spnr.setSelection(position);
+                return;
+            }
+        }
     }
 
     @Override
@@ -108,22 +118,32 @@ public class EditFragment extends Fragment {
         RadioButton unfurnishedRadioButton = (RadioButton) getActivity().findViewById(R.id.updateUnfurnished_radioButton);
         Button saveButton = (Button) getActivity().findViewById(R.id.update_button);
         GridView grid;
+        Boolean empty = true;
         ArrayList<Property> propertiesArrayList = new ArrayList<Property>();
         DataBaseHelper dataBaseHelper = new
                 DataBaseHelper(getActivity(), "EXP4", null, 1);
         Cursor allHaveCursor = dataBaseHelper.getAllHaveData(email);
         DataBaseHelper DBHelper = new DataBaseHelper(getActivity(), "EXP4", null, 1);
-        while(allHaveCursor.moveToNext()){
+        while (allHaveCursor.moveToNext()) {
+            empty = false;
             Cursor cursor = DBHelper.getReadableDatabase().rawQuery("Select * from PROPERTY WHERE POSTALADDRESS LIKE '" + allHaveCursor.getString(0) + "'", null);
             while (cursor.moveToNext())
-                propertiesArrayList.add(new Property(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getDouble(5), (cursor.getString(6).compareToIgnoreCase("TRUE")==0? true:false), cursor.getString(7), cursor.getString(8), cursor.getString(9)));
+                propertiesArrayList.add(new Property(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getDouble(5), (cursor.getString(6).compareToIgnoreCase("TRUE") == 0 ? true : false), cursor.getString(7), cursor.getString(8), cursor.getString(9)));
         }
 
-        CustomGrid adapter = new CustomGrid(getActivity(), propertiesArrayList);
-        grid=(GridView) getActivity().findViewById(R.id.grid2);
-        grid.setAdapter(adapter);
+        TextView editPropertyTextView = (TextView) getActivity().findViewById(R.id.editPropertyTextView);
+        if (empty) {
+            editPropertyTextView.setText("No Property to Edit!");
+        } else {
+            editPropertyTextView.setText("Click to Edit");
+            CustomGrid adapter = new CustomGrid(getActivity(), propertiesArrayList);
+            grid = (GridView) getActivity().findViewById(R.id.grid2);
+            grid.setAdapter(adapter);
+
+
+        //editPropertyTextView
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            String chosenPostalAddress;
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -132,14 +152,6 @@ public class EditFragment extends Fragment {
                 updateLayout.setVisibility(View.VISIBLE);
                 chosenPostalAddress = "";
 
-                /*
-                *
-                * Put Data in text Fields, read them and update
-                *
-                * */
-
-                System.out.println(position);
-
                 Cursor allHaveCursor2 = dataBaseHelper.getAllHaveData(email);
                 int count = 0;
                 while (allHaveCursor2.moveToNext() && count != position)
@@ -147,7 +159,7 @@ public class EditFragment extends Fragment {
                 Cursor crs = DBHelper.getReadableDatabase().rawQuery("Select * from PROPERTY WHERE POSTALADDRESS LIKE '" + allHaveCursor2.getString(0) + "'", null);
 
 
-                if(crs.moveToNext()) {
+                if (crs.moveToNext()) {
                     chosenPostalAddress = crs.getString(0);
                     selectSpinnerItemByValue(citySpinner, crs.getString(1));
 
@@ -180,12 +192,12 @@ public class EditFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String TOASTMSG = "";
-                        if(updateTextConstructionYear.getText().toString().isEmpty() || updateTextRentalPrice.getText().toString().isEmpty() || updateTextAvailabilityDate.getText().toString().isEmpty() || updateTextPhotoURL.getText().toString().isEmpty()){
-                            TOASTMSG =  "Complete The Fields!";
+                        if (updateTextConstructionYear.getText().toString().isEmpty() || updateTextRentalPrice.getText().toString().isEmpty() || updateTextAvailabilityDate.getText().toString().isEmpty() || updateTextPhotoURL.getText().toString().isEmpty()) {
+                            TOASTMSG = "Complete The Fields!";
 
-                        }else if (!MainActivity.validateJavaDate(updateTextAvailabilityDate.getText().toString())){
+                        } else if (!MainActivity.validateJavaDate(updateTextAvailabilityDate.getText().toString())) {
                             TOASTMSG = "Wrong Date!";
-                        }else{
+                        } else {
 
                             Property newProperty = new Property();
                             newProperty.setSurfaceArea(SurfaceArea);
@@ -196,7 +208,7 @@ public class EditFragment extends Fragment {
                             newProperty.setRentalPrice(Double.valueOf(updateTextRentalPrice.getText().toString()));
                             newProperty.setConstructionYear(Integer.valueOf(updateTextConstructionYear.getText().toString()));
                             newProperty.setCity(citySpinner.getSelectedItem().toString());
-                            newProperty.setFurnished((furnishedRadioButton.isChecked()? true: false));
+                            newProperty.setFurnished((furnishedRadioButton.isChecked() ? true : false));
 
                             DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "EXP4", null, 1);
                             dataBaseHelper.updateProperty(newProperty, chosenPostalAddress);
@@ -204,17 +216,15 @@ public class EditFragment extends Fragment {
                             TOASTMSG = "The Property has been updated Correctly!";
 
                         }
-                        Toast toast =Toast.makeText(getActivity(), TOASTMSG, Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getActivity(), TOASTMSG, Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
 
 
-
-
-
             }
         });
+    }
 
         updateSurfaceAreaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -252,15 +262,28 @@ public class EditFragment extends Fragment {
             }
         });
 
-    }
-
-    public static void selectSpinnerItemByValue(Spinner spnr, String value) {
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spnr.getAdapter();
-        for (int position = 0; position < adapter.getCount(); position++) {
-            if(adapter.getItem(position).equalsIgnoreCase(value)) {
-                spnr.setSelection(position);
-                return;
+        Button deleteButton = (Button) getActivity().findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "EXP4", null, 1);
+                Cursor cursor = dataBaseHelper.getPropertyData();
+                Boolean found = false;
+                while (cursor.moveToNext())
+                    if (cursor.getString(0).equalsIgnoreCase(chosenPostalAddress)) {
+                        dataBaseHelper.deleteProperty(chosenPostalAddress);
+                        found = true;
+                        break;
+                    }
+                Toast toast;
+                if (found)
+                    toast = Toast.makeText(getActivity(), "The Property has been deleted Correctly!", Toast.LENGTH_SHORT);
+                else
+                    toast = Toast.makeText(getActivity(), "Already Deleted!", Toast.LENGTH_SHORT);
+                toast.show();
             }
-        }
+
+        });
+
     }
 }

@@ -9,4 +9,11 @@
         android:id="@+id/rHistoryGrid"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/emptyRAHistoryTextView"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:gravity="center"
+        android:text="No Properties to show!" />
 </FrameLayout>

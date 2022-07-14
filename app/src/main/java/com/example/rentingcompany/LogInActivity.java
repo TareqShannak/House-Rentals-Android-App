@@ -64,31 +64,21 @@ public class LogInActivity extends AppCompatActivity {
             checkBoxFlag = 1;
 
 
-        DataBaseHelper dataBaseHelper = new
-                DataBaseHelper(LogInActivity.this, "EXP4", null, 1);
-        Cursor allLogInCursor = dataBaseHelper.getAllSignInData();
 
-        while (allLogInCursor.moveToNext()) {
-            emailArrayList.add(allLogInCursor.getString(0));
-            passwordArrayList.add(allLogInCursor.getString(1));
-            status.add(allLogInCursor.getString(2));
+
+       DataBaseHelper dataBaseHelper1 = new DataBaseHelper(LogInActivity.this, "EXP4", null, 1);
+        Cursor allCustomersCursor = dataBaseHelper1.getAllSignInData();
+        while (allCustomersCursor.moveToNext()) {
+
+            System.out.println("\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "\nemailAddress= " + allCustomersCursor.getString(0));
+//                    + "\nagencyName= " + allCustomersCursor.getString(1)
+//                    + "\npassword= " + allCustomersCursor.getString(2)+ "\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         }
 
-        /*DataBaseHelper dataBaseHelper1 = new DataBaseHelper(Log_in_page.this, "EXP4", null, 1);
-        Cursor allCustomersCursor = dataBaseHelper1.getRentingAgencyData();
-        while (allCustomersCursor.moveToNext()) {
-
-            System.out.println("\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "emailAddress= " + allCustomersCursor.getString(0)
-                    + "\nagencyName= " + allCustomersCursor.getString(1)
-                    + "\npassword= " + allCustomersCursor.getString(2)
-                    + "\nconfirmpassword= " + allCustomersCursor.getString(3)
-                    + "countrySpinner\n" + allCustomersCursor.getString(4)
-                    + "citySpinn\n" + allCustomersCursor.getString(5)
-                    + "phoneNumber\n" + allCustomersCursor.getString(6) + "\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-        }*/
-
+        emailArrayList.removeAll(emailArrayList);
+        passwordArrayList.removeAll(passwordArrayList);
+        status.removeAll(status);
 
 
 
@@ -99,19 +89,38 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                DataBaseHelper dataBaseHelper = new
+                        DataBaseHelper(LogInActivity.this, "EXP4", null, 1);
+                Cursor allLogInCursor = dataBaseHelper.getAllSignInData();
+
+                while (allLogInCursor.moveToNext()) {
+                    emailArrayList.add(allLogInCursor.getString(0));
+                    passwordArrayList.add(allLogInCursor.getString(1));
+                    status.add(allLogInCursor.getString(2));
+
+                }
+
+
+                for(int i = 0; i < emailArrayList.size(); i++) {
+                    System.out.println("ArrayList Elements ********************:");
+                    System.out.print(emailArrayList.get(i));
+                }
 
                 if (emailText.getText().toString().isEmpty()) {
                     emailError.setText("Please Enter Your Email!!");
 
                 } else {
+                    emailError.setText("");
+                    System.out.println("email array list = ");
                     for (String element : emailArrayList) {
-                        System.out.println("email array list = " + element);
+
                         if (element.compareTo(emailText.getText().toString()) == 0) {
                             emailExist = 1;
                             accountStatus = status.get(emailArrayList.indexOf(element));
                             break;
                         } else {
                             emailExist = 0;
+                            emailError.setText("Incorrect Email!!");
                         }
                         index += 1;
                     }
@@ -124,8 +133,7 @@ public class LogInActivity extends AppCompatActivity {
                 if (passwordText.getText().toString().isEmpty()) {
                     passwordError.setText("Please Enter Email Password!!");
                 } else if (emailExist == 1) {
-
-                    if (SHA.encryptSHA512(passwordText.getText().toString()).compareTo(passwordArrayList.get(index)) == 0) {
+                    if (SHA.encryptSHA512(passwordText.getText().toString()).equals(passwordArrayList.get(index))) {
                         passwordExist = 1;
                         index = 0;
                     } else {
@@ -134,6 +142,8 @@ public class LogInActivity extends AppCompatActivity {
 
                     }
 
+                }else{
+                    passwordError.setText("Incorrect Password!!");
                 }
 
                 //status.get(index); : used inside password if else line 97 give email and password status Tenant or Renting Agency
@@ -153,6 +163,7 @@ public class LogInActivity extends AppCompatActivity {
                 }
 
                 if (emailExist == 1 && passwordExist == 1) {
+                    emailError.setText("");
                     MainActivity.email = emailText.getText().toString();
                     DataBaseHelper DBHelper = new DataBaseHelper(LogInActivity.this, "EXP4", null, 1);
                     Cursor cursor = DBHelper.getReadableDatabase().rawQuery("Select STATUS from SIGNIN WHERE EMAIL LIKE '" + emailText.getText().toString() + "'", null);
@@ -171,7 +182,7 @@ public class LogInActivity extends AppCompatActivity {
 
 
                     Intent intent;
-                    if(accountStatus.equalsIgnoreCase("Renting Agency") || accountStatus.equalsIgnoreCase("RENTINGAGENCY"))
+                    if (accountStatus.equalsIgnoreCase("Renting Agency") || accountStatus.equalsIgnoreCase("RENTINGAGENCY"))
                         intent = new Intent(LogInActivity.this, RentingAgencyActivity.class);
                     else
                         intent = new Intent(LogInActivity.this, TenantActivity.class);

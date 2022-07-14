@@ -10,12 +10,15 @@ import android.widget.GridView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.rentingcompany.CustomGrid;
+import com.example.rentingcompany.Grids.CustomGrid;
 import com.example.rentingcompany.DataBase.DataBaseHelper;
 import com.example.rentingcompany.Models.Property;
 import com.example.rentingcompany.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,17 +94,33 @@ public class HomeFragment extends Fragment {
 //        DBHelper.insertProperty(new Property("Zaid", "akka", 244, 44444, 4, 244, true, "x", "2010-10-4", "Nice"));
 
 //        DBHelper.insertHave("C", email);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         ArrayList<Property> propertiesArrayList = new ArrayList<Property>();
-        Cursor cursor = DBHelper.getReadableDatabase().rawQuery("Select * from PROPERTY", null);
+        Cursor cursor = DBHelper.getReadableDatabase().rawQuery("Select * from PROPERTY WHERE PROPERTY.POSTALADDRESS NOT IN ( SELECT CONTRACT.POSTALADDRESS FROM CONTRACT ) ORDER BY POSTDATE DESC", null);
         int count = 0;
-        while (cursor.moveToNext() && count !=5){
-            propertiesArrayList.add(new Property(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getDouble(5), (cursor.getString(6).compareToIgnoreCase("TRUE")==0? true:false), cursor.getString(7), cursor.getString(8), cursor.getString(9)));
+        while (cursor.moveToNext() & count!=5) {
+
+            Date firstDate = null;
+            try {
+                firstDate = sdf.parse(cursor.getString(10));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date secondDate = new Date(System.currentTimeMillis());
+            long diff = secondDate.getTime() - firstDate.getTime();
+            long days = (diff / 1000 / 60 / 60 / 24);
+            if(days > 90){
+                DBHelper.deleteProperty(cursor.getString(0));
+                continue;
+            }
+
+            propertiesArrayList.add(new Property(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getDouble(5), (cursor.getString(6).compareToIgnoreCase("TRUE") == 0 ? true : false), cursor.getString(7), cursor.getString(8), cursor.getString(9)));
             count++;
         }
 
 
         CustomGrid adapter = new CustomGrid(getActivity(), propertiesArrayList);
-        grid=(GridView) getActivity().findViewById(R.id.grid);
+        grid = (GridView) getActivity().findViewById(R.id.grid);
         grid.setAdapter(adapter);
 //        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //

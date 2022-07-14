@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class ConnectionAsyncTask extends AsyncTask<String, String,
-        String>{
+        String> {
     Activity activity;
 
     public ConnectionAsyncTask(Activity activity) {
@@ -29,10 +29,9 @@ public class ConnectionAsyncTask extends AsyncTask<String, String,
     @Override
     protected String doInBackground(String... params) {
         if (com.example.rentingcompany.Connection.HttpManager.getData(params[0]) != null) {
-        String data = com.example.rentingcompany.Connection.HttpManager.getData(params[0]);
-        return data;
-    }
-         else return "";
+            String data = com.example.rentingcompany.Connection.HttpManager.getData(params[0]);
+            return data;
+        } else return "";
     }
 
     @Override

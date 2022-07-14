@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view"
-    android:id="@+id/menu">
+    android:id="@+id/menu"
+    tools:showIn="navigation_view">
 
     <group
         android:id="@+id/group"
@@ -14,8 +14,7 @@
             android:title="Home" />
 
     </group>
-    <group
-        android:id="@+id/group2">
+    <group android:id="@+id/group2">
         <item
             android:id="@+id/nav_add"
             android:icon="@drawable/add_icon"
@@ -25,6 +24,11 @@
             android:enabled="true"
             android:icon="@drawable/edit_icon"
             android:title="Edit the List" />
+        <item
+            android:id="@+id/nav_request"
+            android:enabled="true"
+            android:icon="@drawable/menu_icon"
+            android:title="View Requests" />
         <item
             android:id="@+id/nav_renting_agency_history"
             android:icon="@drawable/history_icon"
